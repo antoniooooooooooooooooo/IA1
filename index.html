@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA v.4</title>
+    <link rel="stylesheet" href="ia4.css">
+    <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <div id="title" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0" class="tab">ACCESSABILITY<br>CARDS</div>
+        <hr id="divider">
+    <!-- Box with text -->
+    <div id="box1" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0" class="tab">
+        <p>Cards</p>
+    </div>
+
+    <!-- Box 2 (Languages) -->
+    <div id="box2" role="tab" aria-selected="false" aria-controls="panel3" tabindex="0" class="tab">
+        <p>Languages</p>
+    </div>
+
+    <!-- New box below the first two -->
+    <div id="box3" role="tab" aria-selected="false" aria-controls="panel4" tabindex="0" class="tab">
+        <span class="placeholder-text">
+            Font Size: <span id="font-size-display">16px</span>
+        </span>
+        <div class="line large-line">
+            <div class="slider-knob"></div>
+        </div>
+    </div>
+
+    <!-- Dropdown box for Cards (initially hidden) -->
+    <div id="dropdown-box-cards">
+        <ul>
+            <li >Living with fatigue and pain</li>
+            <li>Reporter with repetitive stress injury</li>
+            <li>Retiree with low vision, hand tremor, and mild short-term memory loss</li>
+        </ul>
+    </div>
+
+    <!-- Dropdown box for Languages (initially hidden) -->
+    <div id="dropdown-box-languages">
+        <ul>
+            <li>English</li>
+            <li>Portuguese</li>
+        </ul>
+    </div>
+
+
+<hr id="divider2">
+
+<div class="section" role="tab" aria-selected="false" aria-controls="panel5" tabindex="0" class="tab">
+    <h2 class="section-title" id="section-title">Living with fatigue and pain</h2>
+    <div class="content">
+        <p class="section-text">
+            Lea was on track to become a magazine editor when she started experiencing severe fatigue and numbness due to fibromyalgia. Despite trying various treatments, she eventually needed to adjust her work life.
+            <br><br>
+            She found a flexible job from home, modified her workspace with a new keyboard, a trackball, and a new chair. Lea also learned to use speech recognition software.
+            <br><br>
+            On good days, she works normally, but on tough days, she conserves energy for essential tasks. Fortunately, her company is supportive, acknowledging her invisible disability.
+        </p>
+
+        
+        <img src="imagem.png" alt="An example image" class="section-image">
+    </div>
+</div>
+
+</div>
+
+    <script src="ia4.js"></script>
+    
+</body>
+</html>
