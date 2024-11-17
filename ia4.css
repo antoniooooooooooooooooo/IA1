@@ -255,6 +255,12 @@ body {
 
 
 @media (max-width: 930px) {
+
+    body {
+
+        overflow-x: hidden;
+    }
+    
     /* Make the boxes stack vertically */
     #box1, #box2, #box3, #dropdown-box-cards, #dropdown-box-languages {
         position: relative;
@@ -351,7 +357,8 @@ body {
     #box1::after, #box2::after {
         border-left: 8px solid transparent;
         border-right: 8px solid transparent;
-        border-top: 8px solid #150941; /* Triangle pointing down */
+        border-top: 8px solid #150941;
+        left: 50%;
     }
 
     /* Dropdown box for Cards (hidden by default) */
