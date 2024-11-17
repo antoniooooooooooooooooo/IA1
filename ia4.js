@@ -195,3 +195,78 @@ setupTabNavigation();
 focusSection("box1", "section1");
 focusSection("box2", "section2");
 focusSection("box3", "section3");
+
+function initializeSlider() {
+    document.querySelectorAll('.line.large-line').forEach(line => {
+        const knob = line.querySelector('.slider-knob');
+        const sectionTitle = document.querySelector('.section-title');
+        const sectionText = document.querySelector('.section-text');
+        const fontSizeDisplay = document.getElementById('font-size-display');
+
+        const updateFontSize = (percentage) => {
+            const minFontSize = 14;
+            const maxFontSize = 28;
+            const newFontSize = Math.round(minFontSize + (percentage * (maxFontSize - minFontSize) / 100));
+            sectionText.style.fontSize = `${newFontSize}px`;
+            fontSizeDisplay.textContent = `${newFontSize}px`;
+            sectionTitle.style.fontSize = `${newFontSize * 1.5}px`;
+        };
+
+        const updateKnobPosition = (x) => {
+            const lineRect = line.getBoundingClientRect();
+            const lineWidth = line.offsetWidth;
+            const offset = Math.min(Math.max(x - lineRect.left, 0), lineWidth);
+            const percentage = (offset / lineWidth) * 100;
+            knob.style.left = `${percentage}%`;
+            updateFontSize(percentage);
+        };
+
+        // Mouse events
+        knob.addEventListener('mousedown', (e) => {
+            const onMouseMove = (event) => updateKnobPosition(event.clientX);
+            const onMouseUp = () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            };
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+
+        line.addEventListener('click', (e) => updateKnobPosition(e.clientX));
+
+        knob.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft') {
+                updateKnobPosition(knob.getBoundingClientRect().left - 10);
+            } else if (event.key === 'ArrowRight') {
+                updateKnobPosition(knob.getBoundingClientRect().left + 10);
+            }
+        });
+
+        // Touch events for mobile devices
+        let touchStartX = 0;
+        let isTouching = false;
+
+        knob.addEventListener('touchstart', (e) => {
+            isTouching = true;
+            touchStartX = e.touches[0].clientX; // Store initial touch position
+        });
+
+        knob.addEventListener('touchmove', (e) => {
+            if (isTouching) {
+                const touchMoveX = e.touches[0].clientX; // Current touch position
+                updateKnobPosition(touchMoveX); // Update knob position based on touch
+            }
+        });
+
+        knob.addEventListener('touchend', () => {
+            isTouching = false; // End touch interaction
+        });
+
+        // Initialize the slider
+        const initialFontSize = parseInt(getComputedStyle(sectionText).fontSize);
+        const initialPercentage = ((initialFontSize - 14) / (28 - 14)) * 100;
+        knob.style.left = `${initialPercentage}%`;
+        fontSizeDisplay.textContent = `${initialFontSize}px`;
+        updateFontSize(initialPercentage);
+    });
+}
