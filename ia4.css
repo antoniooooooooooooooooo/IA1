@@ -308,7 +308,7 @@ body {
         align-items: center;
         background-color: #F5F2D9;
         z-index: 10;
-        cursor: pointer;
+        cursor: none;
         font-weight: bold;
         border: none;
         border-top: 2px solid #150941;
