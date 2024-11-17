@@ -263,8 +263,13 @@ body {
         left: auto;
         margin-top: 10px;
         margin-left: 0;
-        
-    
+
+    }
+
+    .slider-knob {
+
+        cursor: none;
+
     }
 
     #box1 {
