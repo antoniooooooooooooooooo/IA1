@@ -249,9 +249,9 @@ body {
 
 /* Image styling */
 .section-image {
-    max-width: 550px; /* Set the maximum width of the image */
+    max-width: 500px; /* Set the maximum width of the image */
     height: auto; /* Keep the aspect ratio */
-    margin-top: -70px; /* Moves the image upward */
+    margin-top: -100px; /* Moves the image upward */
     margin-left: 200px; /* Moves the image to the right */
 }
 
@@ -332,7 +332,11 @@ body {
        
     }
 
-    
+    #dropdown-box-cards ul, #dropdown-box-languages ul {
+
+        font-size: 1em;
+     
+    }
 
     .placeholder-text {
         margin-left: 1em;
@@ -437,6 +441,8 @@ body {
     margin: 0 auto; /* Center the image */
     margin-top: 1em;
 }
+
+
 }
 
 @media (max-width: 1330px) {
