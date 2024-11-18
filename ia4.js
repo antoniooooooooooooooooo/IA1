@@ -1,8 +1,18 @@
 // Function to toggle dropdown visibility
 function toggleDropdown(dropdownBox) {
     const isExpanded = dropdownBox.style.display === 'block';
-    dropdownBox.style.display = isExpanded ? 'none' : 'block';
+    if (!isExpanded) {
+        dropdownBox.style.display = 'block';
+        // Focus the first item when the dropdown is opened
+        const firstItem = dropdownBox.querySelector('li');
+        if (firstItem) {
+          
+        }
+    } else {
+        dropdownBox.style.display = 'none';
+    }
 }
+
 
 // Function to close dropdown
 function closeDropdown(dropdownBox) {
@@ -58,13 +68,7 @@ function handleDropdownNavigation() {
 
         item.addEventListener('keydown', (event) => {
             const dropdownBox = item.closest('.dropdown-box'); // Get parent dropdown
-            if (event.key === "ArrowDown") {
-                const next = item.nextElementSibling || item.parentElement.firstElementChild;
-                next.focus();
-            } else if (event.key === "ArrowUp") {
-                const prev = item.previousElementSibling || item.parentElement.lastElementChild;
-                prev.focus();
-            } else if (event.key === "Tab") {
+            if (event.key === "Tab") {
                 closeDropdown(dropdownBox);
             }
         });
@@ -173,7 +177,7 @@ document.addEventListener('keydown', (event) => {
 // Change background color on focus for tab elements
 function addFocusStyle(event) {
     if (isTabPressed) {
-        event.target.style.backgroundColor = '#d08e8e'; // Change background color
+        event.target.style.backgroundColor = '#FFF31A'; // Change background color
     }
 }
 
@@ -200,7 +204,7 @@ document.addEventListener('focusin', () => { isTabPressed = false; });
 // Initialize dropdown navigation, slider functionality, and tab navigation
 handleDropdownNavigation();
 initializeSlider();
-setupTabNavigation();
+
 
 // Focus management for tab-section links
 focusSection("box1", "section1");
@@ -319,18 +323,21 @@ function handleLanguageSwitch() {
             }
         });
 
-        // Add keyboard navigation (ArrowUp/ArrowDown, Enter)
         item.addEventListener('keydown', (event) => {
-            const dropdownBox = item.closest('.dropdown-box');
+            const dropdownBox = item.closest('.dropdown-box'); // Get parent dropdown
             if (event.key === "ArrowDown") {
                 const next = item.nextElementSibling || item.parentElement.firstElementChild;
-                next.focus();
+                next.focus(); // Move focus down
+                event.preventDefault(); // Prevent default scrolling
             } else if (event.key === "ArrowUp") {
                 const prev = item.previousElementSibling || item.parentElement.lastElementChild;
-                prev.focus();
-            } else if (event.key === "Enter") {
+                prev.focus(); // Move focus up
+                event.preventDefault(); // Prevent default scrolling
+            } else if (event.key === "Tab") {
+                // Close the dropdown when Tab is pressed
+                closeDropdown(dropdownBox);
+                // Optionally, prevent the tab key from doing its default action to prevent jumping out of the dropdown
                 event.preventDefault();
-                item.click();
             }
         });
     });
@@ -339,3 +346,26 @@ function handleLanguageSwitch() {
 // Initialize the language switcher functionality
 handleLanguageSwitch();
 
+// Adding navigation for left and right mouse buttons
+function setupMouseNavigation() {
+    document.addEventListener('mousedown', (event) => {
+        if (event.button === 3) {  // Right mouse button (Back)
+            // Move to the previous tab
+            const activeTab = document.querySelector('[role="tab"][aria-selected="true"]');
+            const prevTab = activeTab.previousElementSibling || activeTab.parentElement.lastElementChild;
+            prevTab.focus();
+            prevTab.setAttribute('aria-selected', 'true');
+            activeTab.setAttribute('aria-selected', 'false');
+        } else if (event.button === 4) {  // Left mouse button (Forward)
+            // Move to the next tab
+            const activeTab = document.querySelector('[role="tab"][aria-selected="true"]');
+            const nextTab = activeTab.nextElementSibling || activeTab.parentElement.firstElementChild;
+            nextTab.focus();
+            nextTab.setAttribute('aria-selected', 'true');
+            activeTab.setAttribute('aria-selected', 'false');
+        }
+    });
+}
+
+// Initialize mouse navigation
+setupMouseNavigation();
