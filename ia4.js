@@ -374,6 +374,7 @@ setupMouseNavigation();
 // Save selected language in localStorage
 // Save selected language in localStorage
 // Save selected language in localStorage
+// Save selected language in localStorage
 function setLanguage(lang) {
     localStorage.setItem('selectedLanguage', lang);
 }
@@ -446,8 +447,11 @@ function handleLanguageSwitch() {
 // Redirect to saved language on page load
 function initializeLanguage() {
     const savedLang = getLanguage(); // Get the saved language
-    applyLanguageToPage(savedLang); // Ensure the page matches the saved language
+    applyLanguageToPage(savedLang);
+    initializeLanguage();
+    handleLanguageSwitch();
+     // Ensure the page matches the saved language
 }
 
-// Initialize language handling on page load
 
+ 
