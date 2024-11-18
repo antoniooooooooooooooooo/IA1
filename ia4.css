@@ -324,7 +324,7 @@ body {
         align-items: center;
         background-color: #F5F2D9;
         z-index: 10;
-        cursor: none;
+        cursor: default;
         font-weight: bold;
         border: none;
         border-top: 2px solid #150941;
@@ -343,7 +343,9 @@ body {
     }
 
     .line.large-line {
-        width: 50vw;
+        width: 45vw;
+        margin-left: 1em;
+        cursor: pointer;
     }
 
     /* Center the title */
