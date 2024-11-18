@@ -369,3 +369,98 @@ function setupMouseNavigation() {
 
 // Initialize mouse navigation
 setupMouseNavigation();
+
+// Save selected language in localStorage
+function setLanguage(lang) {
+    localStorage.setItem('selectedLanguage', lang);
+}
+
+// Get selected language from localStorage, default to 'en'
+function getLanguage() {
+    return localStorage.getItem('selectedLanguage') || 'en';
+}
+
+// Function to handle language switching
+function handleLanguageSwitch() {
+    const languageItems = document.querySelectorAll('.language-option');
+
+    languageItems.forEach((item) => {
+        item.addEventListener('click', () => {
+            const selectedLang = item.getAttribute('data-lang');
+            setLanguage(selectedLang); // Save selected language
+            applyLanguageToPage(selectedLang);
+        });
+
+        item.addEventListener('keydown', (event) => {
+            const dropdownBox = item.closest('.dropdown-box'); // Get parent dropdown
+            if (event.key === "ArrowDown") {
+                const next = item.nextElementSibling || item.parentElement.firstElementChild;
+                next.focus();
+                event.preventDefault();
+            } else if (event.key === "ArrowUp") {
+                const prev = item.previousElementSibling || item.parentElement.lastElementChild;
+                prev.focus();
+                event.preventDefault();
+            } else if (event.key === "Tab") {
+                closeDropdown(dropdownBox);
+                event.preventDefault();
+            }
+        });
+    });
+}
+
+// Apply the selected language to the page and URLs
+function applyLanguageToPage(lang) {
+    const currentPage = window.location.pathname;
+    const baseName = currentPage.replace(/-(en|pt)\.html$/, ''); // Remove existing language code
+    const newPage = `${baseName}-${lang}.html`;
+    window.location.href = newPage;
+}
+
+// Function to handle card navigation with consistent language
+function handleDropdownNavigation() {
+    const cardItems = document.querySelectorAll('#dropdown-box-cards li');
+    const lang = getLanguage(); // Get the current language
+
+    cardItems.forEach((item, index) => {
+        item.setAttribute('tabindex', '0'); // Make list items focusable
+
+        item.addEventListener('click', () => {
+            if (index === 0) {
+                window.location.href = `index-${lang}.html`;
+            } else if (index === 1) {
+                window.location.href = `reporter-with-repetitive-stress-injury-${lang}.html`;
+            } else if (index === 2) {
+                window.location.href = `retiree-with-low-vision-hand-tremor-${lang}.html`;
+            }
+        });
+
+        item.addEventListener('keydown', (event) => {
+            const dropdownBox = item.closest('.dropdown-box');
+            if (event.key === "Tab") {
+                closeDropdown(dropdownBox);
+            }
+        });
+    });
+}
+
+// Initialize language on page load
+function initializeLanguage() {
+    const lang = getLanguage(); // Retrieve saved language
+    const currentPage = window.location.pathname;
+
+    // Check if the current page matches the saved language
+    if (!currentPage.includes(`-${lang}.html`)) {
+        const baseName = currentPage.replace(/-(en|pt)\.html$/, ''); // Remove existing language code
+        const newPage = `${baseName}-${lang}.html`;
+        window.location.href = newPage; // Redirect to the correct language page
+    }
+}
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', () => {
+    initializeLanguage(); // Ensure the page is loaded in the correct language
+    handleLanguageSwitch(); // Set up language switching
+    handleDropdownNavigation(); // Set up card navigation
+});
+
