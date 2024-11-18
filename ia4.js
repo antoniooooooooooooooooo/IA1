@@ -371,6 +371,9 @@ function setupMouseNavigation() {
 setupMouseNavigation();
 
 // Save selected language in localStorage
+// Save selected language in localStorage
+// Save selected language in localStorage
+// Save selected language in localStorage
 function setLanguage(lang) {
     localStorage.setItem('selectedLanguage', lang);
 }
@@ -380,28 +383,59 @@ function getLanguage() {
     return localStorage.getItem('selectedLanguage') || 'en';
 }
 
-// Function to handle language switching
+// Apply the selected language to the current page
+function applyLanguageToPage(lang) {
+    const currentPage = window.location.pathname;
+
+    // If we are on the homepage (index.html)
+    if (currentPage.endsWith('index.html')) {
+        // Navigate to Portuguese if selected
+        if (lang === 'pt') {
+            window.location.href = 'index-pt.html'; // Go to Portuguese version of index
+        } else {
+            window.location.href = 'index.html'; // Stay on English version of index
+        }
+    } else {
+        // For all other pages, we default to -en.html
+        const baseName = currentPage.replace(/-(en|pt)\.html$/, '').replace(/\.html$/, ''); // Remove existing lang suffix
+
+        let newPage;
+        if (lang === 'pt') {
+            newPage = `${baseName}-pt.html`; // Add Portuguese suffix if selected
+        } else {
+            newPage = `${baseName}-en.html`; // Default to English version
+        }
+
+        // Redirect to the new page if it's different from the current page
+        if (!currentPage.endsWith(newPage)) {
+            window.location.href = newPage;
+        }
+    }
+}
+
+// Handle language switcher interactions
 function handleLanguageSwitch() {
     const languageItems = document.querySelectorAll('.language-option');
 
     languageItems.forEach((item) => {
         item.addEventListener('click', () => {
-            const selectedLang = item.getAttribute('data-lang');
+            const selectedLang = item.getAttribute('data-lang'); // 'en' or 'pt'
             setLanguage(selectedLang); // Save selected language
-            applyLanguageToPage(selectedLang);
+            applyLanguageToPage(selectedLang); // Redirect to the correct page
         });
 
+        // Optional: Handle keyboard navigation in the dropdown
         item.addEventListener('keydown', (event) => {
-            const dropdownBox = item.closest('.dropdown-box'); // Get parent dropdown
-            if (event.key === "ArrowDown") {
+            const dropdownBox = item.closest('.dropdown-box');
+            if (event.key === 'ArrowDown') {
                 const next = item.nextElementSibling || item.parentElement.firstElementChild;
                 next.focus();
                 event.preventDefault();
-            } else if (event.key === "ArrowUp") {
+            } else if (event.key === 'ArrowUp') {
                 const prev = item.previousElementSibling || item.parentElement.lastElementChild;
                 prev.focus();
                 event.preventDefault();
-            } else if (event.key === "Tab") {
+            } else if (event.key === 'Tab') {
                 closeDropdown(dropdownBox);
                 event.preventDefault();
             }
@@ -409,58 +443,11 @@ function handleLanguageSwitch() {
     });
 }
 
-// Apply the selected language to the page and URLs
-function applyLanguageToPage(lang) {
-    const currentPage = window.location.pathname;
-    const baseName = currentPage.replace(/-(en|pt)\.html$/, ''); // Remove existing language code
-    const newPage = `${baseName}-${lang}.html`;
-    window.location.href = newPage;
-}
-
-// Function to handle card navigation with consistent language
-function handleDropdownNavigation() {
-    const cardItems = document.querySelectorAll('#dropdown-box-cards li');
-    const lang = getLanguage(); // Get the current language
-
-    cardItems.forEach((item, index) => {
-        item.setAttribute('tabindex', '0'); // Make list items focusable
-
-        item.addEventListener('click', () => {
-            if (index === 0) {
-                window.location.href = `index-${lang}.html`;
-            } else if (index === 1) {
-                window.location.href = `reporter-with-repetitive-stress-injury-${lang}.html`;
-            } else if (index === 2) {
-                window.location.href = `retiree-with-low-vision-hand-tremor-${lang}.html`;
-            }
-        });
-
-        item.addEventListener('keydown', (event) => {
-            const dropdownBox = item.closest('.dropdown-box');
-            if (event.key === "Tab") {
-                closeDropdown(dropdownBox);
-            }
-        });
-    });
-}
-
-// Initialize language on page load
+// Redirect to saved language on page load
 function initializeLanguage() {
-    const lang = getLanguage(); // Retrieve saved language
-    const currentPage = window.location.pathname;
-
-    // Check if the current page matches the saved language
-    if (!currentPage.includes(`-${lang}.html`)) {
-        const baseName = currentPage.replace(/-(en|pt)\.html$/, ''); // Remove existing language code
-        const newPage = `${baseName}-${lang}.html`;
-        window.location.href = newPage; // Redirect to the correct language page
-    }
+    const savedLang = getLanguage(); // Get the saved language
+    applyLanguageToPage(savedLang); // Ensure the page matches the saved language
 }
 
-// Initialize everything
-document.addEventListener('DOMContentLoaded', () => {
-    initializeLanguage(); // Ensure the page is loaded in the correct language
-    handleLanguageSwitch(); // Set up language switching
-    handleDropdownNavigation(); // Set up card navigation
-});
+// Initialize language handling on page load
 
