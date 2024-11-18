@@ -154,13 +154,17 @@ body {
     border: 2px solid #333;
     z-index: 1000;  /* Ensure it's above other elements */
 }
-
+.li{
+    font-weight: bold;
+}
 /* Remove stroke from each option */
 #dropdown-box-cards ul, #dropdown-box-languages ul {
     list-style-type: disc;
     margin: 0;
     margin-left: 1em;
     padding-left: 1em;  /* Padding for bullets */
+    font-size: 1.2em;
+ 
 }
 
 #dropdown-box-cards ul li, #dropdown-box-languages ul li {
@@ -223,6 +227,7 @@ body {
     margin-bottom: 20px;
     color: #150941;
     text-align: left; /* Align the title to the left */
+    max-width: 600px;
 }
 
 /* Flex container for content */
@@ -244,7 +249,7 @@ body {
 
 /* Image styling */
 .section-image {
-    max-width: 450px; /* Set the maximum width of the image */
+    max-width: 550px; /* Set the maximum width of the image */
     height: auto; /* Keep the aspect ratio */
     margin-top: -70px; /* Moves the image upward */
     margin-left: 200px; /* Moves the image to the right */

@@ -269,4 +269,6 @@ function initializeSlider() {
         fontSizeDisplay.textContent = `${initialFontSize}px`;
         updateFontSize(initialPercentage);
     });
+
 }
+
