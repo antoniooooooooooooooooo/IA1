@@ -269,7 +269,7 @@ body {
         left: auto;
         margin-top: 10px;
         margin-left: 0;
-
+        
     }
 
     .slider-knob {
@@ -339,11 +339,14 @@ body {
 
     /* Center the title */
     #title {
+        margin-left: 0.5em;
+        left: 0px;
         position: relative;
         font-size: 2em;
         text-align: left;
         margin-top: 0px;
         padding-bottom: 0.5em;
+        background-color: #F5F2D9;
     }
 
     /* Adjust the divider to be more responsive */
@@ -358,7 +361,7 @@ body {
         border-left: 8px solid transparent;
         border-right: 8px solid transparent;
         border-top: 8px solid #150941;
-        left: 50%;
+       
     }
 
     /* Dropdown box for Cards (hidden by default) */
