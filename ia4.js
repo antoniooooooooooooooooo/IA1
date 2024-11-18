@@ -39,10 +39,22 @@ function attachDropdownHandlers(triggerId, dropdownId) {
     });
 }
 
-// Handle navigation within dropdowns (for items inside dropdowns)
 function handleDropdownNavigation() {
-    document.querySelectorAll('#dropdown-box-cards li, #dropdown-box-languages li').forEach(item => {
+    const cardItems = document.querySelectorAll('#dropdown-box-cards li');
+    
+    cardItems.forEach((item, index) => {
         item.setAttribute('tabindex', '0'); // Make list items focusable
+
+        // Add click event to each card item
+        item.addEventListener('click', () => {
+            if (index === 0) {
+                window.location.href = 'index.html'; // Navigate to the first card (index.html)
+            } else if (index === 1) {
+                window.location.href = 'reporter-with-repetitive-stress-injury-en.html'; // Navigate to second card
+            } else if (index === 2) {
+                window.location.href = 'retiree-with-low-vision-hand-tremor-en.html'; // Navigate to third card
+            }
+        });
 
         item.addEventListener('keydown', (event) => {
             const dropdownBox = item.closest('.dropdown-box'); // Get parent dropdown
@@ -58,7 +70,6 @@ function handleDropdownNavigation() {
         });
     });
 }
-
 // Slider control and font size adjustment
 function initializeSlider() {
     document.querySelectorAll('.line.large-line').forEach(line => {
@@ -271,4 +282,60 @@ function initializeSlider() {
     });
 
 }
+
+function handleLanguageSwitch() {
+    const languageItems = document.querySelectorAll('.language-option');
+
+    languageItems.forEach((item) => {
+        item.addEventListener('click', () => {
+            const selectedLang = item.getAttribute('data-lang');
+            const currentPage = window.location.pathname;
+
+            // Special case for index.html
+            if (currentPage.endsWith('index.html')) {
+                if (selectedLang === 'pt') {
+                    // Navigate to the Portuguese version of the special page
+                    window.location.href = 'living-with-fatigue-and-pain-pt.html';
+                } else {
+                    // Default to English version (index.html)
+                    window.location.href = 'index.html';
+                }
+            } else {
+                // General case - replace the language code in the current page URL
+                const baseName = currentPage.replace(/-(en|pt)\.html$/, ''); // Remove any existing language code
+                const newPage = `${baseName}-${selectedLang}.html`; // Add the new language code
+
+                // Check if we're on a page that needs special handling, like 'living-with-fatigue-and-pain-pt.html'
+                if (currentPage.includes('-pt.html') && selectedLang === 'en') {
+                    // From Portuguese version to English version
+                    window.location.href = newPage;
+                } else if (currentPage.includes('-en.html') && selectedLang === 'pt') {
+                    // From English version to Portuguese version
+                    window.location.href = newPage;
+                } else {
+                    // Otherwise, handle it normally
+                    window.location.href = newPage;
+                }
+            }
+        });
+
+        // Add keyboard navigation (ArrowUp/ArrowDown, Enter)
+        item.addEventListener('keydown', (event) => {
+            const dropdownBox = item.closest('.dropdown-box');
+            if (event.key === "ArrowDown") {
+                const next = item.nextElementSibling || item.parentElement.firstElementChild;
+                next.focus();
+            } else if (event.key === "ArrowUp") {
+                const prev = item.previousElementSibling || item.parentElement.lastElementChild;
+                prev.focus();
+            } else if (event.key === "Enter") {
+                event.preventDefault();
+                item.click();
+            }
+        });
+    });
+}
+
+// Initialize the language switcher functionality
+handleLanguageSwitch();
 
